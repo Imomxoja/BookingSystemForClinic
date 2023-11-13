@@ -1,6 +1,7 @@
 package uz.pdp.doctor.domain.dto.request.booking;
 
 
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDateTime;
