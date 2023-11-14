@@ -49,8 +49,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
             return baseResponse;
         }
 
-        UserEntity userEntity = userConverter.toUserEntity(baseResponse.getData());
-        userRepository.delete(userEntity);
+        userRepository.deleteById(id);
 
         return new BaseResponse<>("Success!", 200, null);
     }
