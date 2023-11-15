@@ -13,5 +13,5 @@ import java.util.UUID;
 public class DoctorBeginningWorkTimeUpdateRequest {
     private UUID id;
 
-    private LocalTime endingWorkTime;
+    private LocalTime beginningWorkTime;
 }
