@@ -8,7 +8,7 @@ import uz.pdp.doctor.domain.entity.history.HistoryEntity;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor

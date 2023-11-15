@@ -3,18 +3,19 @@ package uz.pdp.doctor.service.doctor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import uz.pdp.doctor.controller.converter.DoctorConverter;
 import uz.pdp.doctor.domain.dto.request.booking.BookingRequest;
+
 import uz.pdp.doctor.domain.dto.request.doctor.*;
-import uz.pdp.doctor.domain.dto.request.user.UserLastNameUpdateRequest;
-import uz.pdp.doctor.domain.dto.request.user.UserNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
-import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.doctor.DoctorResponse;
+
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.domain.entity.doctor.DoctorEntity;
 import uz.pdp.doctor.domain.entity.user.UserEntity;
 import uz.pdp.doctor.repository.doctor.DoctorRepository;
+
 import uz.pdp.doctor.service.BaseService;
 
 import java.util.List;

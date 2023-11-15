@@ -8,8 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import uz.pdp.doctor.domain.entity.BaseEntity;
 import uz.pdp.doctor.domain.entity.booking.BookingEntity;
 import uz.pdp.doctor.domain.entity.history.HistoryEntity;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -18,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
+@Entity(name = "doctors")
 public class DoctorEntity extends BaseEntity {
 
     @Column(nullable = false)

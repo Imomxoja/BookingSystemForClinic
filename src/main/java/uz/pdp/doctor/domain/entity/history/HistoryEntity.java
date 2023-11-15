@@ -10,7 +10,7 @@ import uz.pdp.doctor.domain.entity.user.UserEntity;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "histories")
 @Getter
 @Setter
 @AllArgsConstructor
