@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "bookings")
 @Builder
 public class BookingEntity extends BaseEntity {
 

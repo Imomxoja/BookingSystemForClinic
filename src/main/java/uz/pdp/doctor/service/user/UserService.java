@@ -1,13 +1,11 @@
 package uz.pdp.doctor.service.user;
 
 import org.springframework.stereotype.Service;
-import uz.pdp.doctor.domain.dto.request.booking.BookingRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserLastNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserLoginRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
-import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.service.BaseService;
 
