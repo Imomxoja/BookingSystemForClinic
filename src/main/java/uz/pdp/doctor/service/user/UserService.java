@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.controller.converter.UserConverter;
-import uz.pdp.doctor.domain.dto.request.booking.BookingRequest;
-import uz.pdp.doctor.domain.dto.request.user.UserLastNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserLoginRequest;
-import uz.pdp.doctor.domain.dto.request.user.UserNameUpdateRequest;
+import uz.pdp.doctor.domain.dto.request.user.UserNameAndLastnameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
-import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.domain.entity.user.UserEntity;
 import uz.pdp.doctor.domain.entity.user.UserRole;
@@ -20,6 +17,7 @@ import uz.pdp.doctor.service.BaseService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
@@ -89,38 +87,35 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
         return new BaseResponse<>("Something went wrong!", 400, null);
     }
 
-    public BaseResponse<UserResponse> nameUpdate(UserNameUpdateRequest userNameUpdateRequest){
-        return updateUser(userNameUpdateRequest, "name");
-    }
+    public BaseResponse<UserResponse> updateField(UUID id, Consumer<UserEntity> updateField){
+        BaseResponse<UserResponse> response = getById(id);
 
-    public BaseResponse<UserResponse> lastNameUpdate(UserLastNameUpdateRequest userLastNameUpdateRequest){
-        return updateUser(userLastNameUpdateRequest, "lastname");
-    }
-
-    public BaseResponse<UserResponse> updateUser(Object request, String whatUserField){
-
-        UserNameUpdateRequest userUpdateRequest = (UserNameUpdateRequest) request;
-        BaseResponse<UserResponse> baseResponse = getById(userUpdateRequest.getId());
-
-        if (baseResponse.getData() == null){
-            return baseResponse;
+        if (response.getData() == null){
+            return response;
         }
 
-        UserEntity userEntity = userConverter.toUserEntity(baseResponse.getData());
-
-        if (whatUserField.equals("name")){
-            userEntity.setName(userEntity.getLastName());
-        }
-
-        if (whatUserField.equals("lastname")){
-            userEntity.setLastName(userEntity.getLastName());
-        }
+        UserEntity userEntity = userConverter.toUserEntity(response.getData());
+        updateField.accept(userEntity);
 
         UserEntity updatedUser = userRepository.save(userEntity);
 
         return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(updatedUser));
+    }
 
+    public BaseResponse<UserResponse> nameAndLastUpdate(UserNameAndLastnameUpdateRequest userNameAndLastnameUpdateRequest){
+        BaseResponse<UserResponse> response = getById(userNameAndLastnameUpdateRequest.getId());
 
+        if (response.getData() == null){
+            return response;
+        }
+
+        UserEntity userEntity = userConverter.toUserEntity(response.getData());
+        userEntity.setName(userNameAndLastnameUpdateRequest.getName());
+        userEntity.setLastName(userNameAndLastnameUpdateRequest.getLastName());
+
+        UserEntity updatedUser = userRepository.save(userEntity);
+
+        return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(updatedUser));
     }
 
     public BaseResponse<List<UserResponse>> getAll(){

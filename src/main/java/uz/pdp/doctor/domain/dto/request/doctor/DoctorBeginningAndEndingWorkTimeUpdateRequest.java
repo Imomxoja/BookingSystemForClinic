@@ -10,8 +10,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DoctorBeginningWorkTimeUpdateRequest {
+public class DoctorBeginningAndEndingWorkTimeUpdateRequest {
     private UUID id;
 
     private LocalTime beginningWorkTime;
+
+    private LocalTime endingWorkTime;
 }
