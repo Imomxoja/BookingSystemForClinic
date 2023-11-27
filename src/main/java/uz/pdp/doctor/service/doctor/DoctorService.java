@@ -5,15 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import uz.pdp.doctor.controller.converter.DoctorConverter;
-import uz.pdp.doctor.domain.dto.request.booking.BookingRequest;
 
 import uz.pdp.doctor.domain.dto.request.doctor.*;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
+import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.doctor.DoctorResponse;
 
-import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.domain.entity.doctor.DoctorEntity;
-import uz.pdp.doctor.domain.entity.user.UserEntity;
 import uz.pdp.doctor.repository.doctor.DoctorRepository;
 
 import uz.pdp.doctor.service.BaseService;
@@ -21,9 +19,7 @@ import uz.pdp.doctor.service.BaseService;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +34,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
         DoctorEntity doctorEntity = doctorConverter.toDoctorEntity(doctorRequest);
         doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity), 0);
     }
 
     @Override
@@ -51,7 +47,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         doctorRepository.deleteById(id);
 
-        return new BaseResponse<>("Success!", 200, null);
+        return new BaseResponse<>("Success!", 200, null,0);
     }
 
     @Override
@@ -60,8 +56,8 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         return optional.map(doctor -> new BaseResponse<>(
                         "Success!",
-                        200, doctorConverter.toDoctorResponse(doctor)))
-                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null));
+                        200, doctorConverter.toDoctorResponse(doctor), 0))
+                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null, 0));
     }
 
     public BaseResponse<DoctorResponse> findByEmail(String email){
@@ -69,8 +65,8 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         return optional.map(doctor -> new BaseResponse<>(
                 "Success!",
-                200, doctorConverter.toDoctorResponse(doctor)))
-                .orElseGet(() -> new BaseResponse<>("Doctor not found!", 404, null));
+                200, doctorConverter.toDoctorResponse(doctor), 0))
+                .orElseGet(() -> new BaseResponse<>("Doctor not found!", 404, null, 0));
     }
 
     public BaseResponse<DoctorResponse> login(DoctorLoginRequest doctorLoginRequest){
@@ -83,9 +79,9 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
         DoctorEntity doctorEntity = doctorConverter.toDoctorEntity(baseResponse.getData());
 
         if (passwordEncoder.matches(doctorLoginRequest.getPassword(), doctorEntity.getPassword())){
-            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity));
+            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity), 0);
         }
-        return new BaseResponse<>("Something went wrong!", 400, null);
+        return new BaseResponse<DoctorResponse>("Something went wrong!", 400, null, 0);
     }
 
 //    public BaseResponse<DoctorResponse> nameUpdate(DoctorNameUpdateRequest doctorNameUpdateRequest){
@@ -192,7 +188,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         DoctorEntity updatedDoctor = doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor), 0);
     }
 
     public BaseResponse<DoctorResponse> nameUpdate(DoctorNameUpdateRequest request) {
@@ -222,6 +218,6 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
     public BaseResponse<List<DoctorResponse>> getAll(){
         List<DoctorEntity> doctors = doctorRepository.findAll();
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctors));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctors), 0);
     }
 }

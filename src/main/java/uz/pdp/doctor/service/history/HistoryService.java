@@ -3,9 +3,13 @@ package uz.pdp.doctor.service.history;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.domain.dto.request.history.HistoryRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
+import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.history.HistoryResponse;
 import uz.pdp.doctor.domain.entity.history.HistoryEntity;
 import uz.pdp.doctor.repository.history.HistoryRepository;
@@ -26,18 +30,17 @@ public class HistoryService implements BaseService<HistoryRequest, BaseResponse<
         HistoryEntity history = historyRepository.save(mapper.map(historyRequest, HistoryEntity.class));
 
         return BaseResponse.<HistoryResponse>
-                builder()
+                        builder()
                 .message("History successfully created")
                 .status(200)
                 .data(mapper.map(history, HistoryResponse.class))
                 .build();
     }
 
+
     @Override
     public BaseResponse<HistoryResponse> delete(UUID id) {
-        Optional<HistoryEntity> history = historyRepository.findById(id);
-
-        if (history.isPresent()) {
+        try {
             historyRepository.deleteById(id);
 
             return BaseResponse.<HistoryResponse>
@@ -45,13 +48,14 @@ public class HistoryService implements BaseService<HistoryRequest, BaseResponse<
                     .message("History successfully deleted")
                     .status(200)
                     .build();
+        } catch (Exception e) {
+           return BaseResponse.<HistoryResponse>
+                           builder()
+                   .message("History hasn't deleted")
+                   .status(400)
+                   .build();
         }
 
-        return BaseResponse.<HistoryResponse>
-                        builder()
-                .message("History not found")
-                .status(400)
-                .build();
     }
 
     @Override
@@ -109,6 +113,23 @@ public class HistoryService implements BaseService<HistoryRequest, BaseResponse<
                 .data(mapper.map(doctorHistories,
                         new TypeToken<List<HistoryResponse>>() {
                         }.getType()))
+                .build();
+    }
+
+    public BaseResponse<List<HistoryResponse>> findAll(int page) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<HistoryEntity> allHistories = historyRepository.findAll(pageable);
+        int totalPages = allHistories.getTotalPages();
+
+
+        return BaseResponse.<List<HistoryResponse>>
+                        builder()
+                .message("All histories")
+                .status(200)
+                .data(mapper.map(allHistories.getContent(),
+                        new TypeToken<List<HistoryResponse>>() {
+                        }.getType()))
+                .totalPage((totalPages == 0) ? 0 : totalPages - 1)
                 .build();
     }
 }

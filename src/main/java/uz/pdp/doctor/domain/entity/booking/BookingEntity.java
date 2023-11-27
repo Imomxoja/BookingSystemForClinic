@@ -31,4 +31,6 @@ public class BookingEntity extends BaseEntity {
 
    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
    private LocalDateTime endingTime;
+
+   private boolean isActive = true;
 }
