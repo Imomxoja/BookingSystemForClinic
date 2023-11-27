@@ -11,4 +11,5 @@ public class BaseResponse<T> {
     private String message;
     private Integer status;
     private T data;
+    private int totalPage;
 }

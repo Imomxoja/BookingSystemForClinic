@@ -5,13 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import uz.pdp.doctor.controller.converter.UserConverter;
-import uz.pdp.doctor.domain.dto.request.booking.BookingRequest;
 
 import uz.pdp.doctor.domain.dto.request.user.UserLastNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserLoginRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserNameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
+import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.domain.entity.user.UserEntity;
 import uz.pdp.doctor.domain.entity.user.UserRole;
@@ -39,7 +39,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
         return new BaseResponse<>(
                 "Success!",
-                200, userConverter.toUserResponse(userEntity));
+                200, userConverter.toUserResponse(userEntity), 0);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
         userRepository.deleteById(id);
 
-        return new BaseResponse<>("Success!", 200, null);
+        return new BaseResponse<>("Success!", 200, null, 0);
     }
 
     @Override
@@ -61,8 +61,8 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
         return optional.map(user -> new BaseResponse<>(
                 "Success!",
-                200, userConverter.toUserResponse(user)))
-                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null));
+                200, userConverter.toUserResponse(user), 0))
+                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null, 0));
 
     }
 
@@ -71,8 +71,8 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
         return optional.map(userEntity -> new BaseResponse<>(
                 "Success!",
-                200, userConverter.toUserResponse(userEntity)))
-                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null));
+                200, userConverter.toUserResponse(userEntity), 0))
+                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null, 0));
     }
 
     public BaseResponse<UserResponse> login(UserLoginRequest userLoginRequest){
@@ -85,9 +85,9 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
         UserEntity userEntity = userConverter.toUserEntity(baseResponse.getData());
 
         if (passwordEncoder.matches(userLoginRequest.getPassword(), userEntity.getPassword())){
-            return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(userEntity));
+            return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(userEntity), 0);
         }
-        return new BaseResponse<>("Something went wrong!", 400, null);
+        return new BaseResponse<>("Something went wrong!", 400, null, 0);
     }
 
     public BaseResponse<UserResponse> nameUpdate(UserNameUpdateRequest userNameUpdateRequest){
@@ -119,7 +119,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
         UserEntity updatedUser = userRepository.save(userEntity);
 
-        return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(updatedUser));
+        return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(updatedUser), 0);
 
 
     }
@@ -127,7 +127,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
     public BaseResponse<List<UserResponse>> getAll(){
         List<UserEntity> allUsers = userRepository.findAll();
 
-        return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(allUsers));
+        return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(allUsers), 0);
     }
 
 }
