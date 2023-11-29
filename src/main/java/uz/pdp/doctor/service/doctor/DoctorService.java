@@ -29,7 +29,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
         DoctorEntity doctorEntity = doctorConverter.toDoctorEntity(doctorRequest);
         doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity),0);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         doctorRepository.deleteById(id);
 
-        return new BaseResponse<>("Success!", 200, null);
+        return new BaseResponse<>("Success!", 200, null, 0);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         return optional.map(doctor -> new BaseResponse<>(
                         "Success!",
-                        200, doctorConverter.toDoctorResponse(doctor)))
-                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null));
+                        200, doctorConverter.toDoctorResponse(doctor), 0))
+                .orElseGet(() -> new BaseResponse<>("User not found!", 404, null, 0));
     }
 
     public BaseResponse<DoctorResponse> findByEmail(String email){
@@ -60,8 +60,8 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         return optional.map(doctor -> new BaseResponse<>(
                 "Success!",
-                200, doctorConverter.toDoctorResponse(doctor)))
-                .orElseGet(() -> new BaseResponse<>("Doctor not found!", 404, null));
+                200, doctorConverter.toDoctorResponse(doctor), 0))
+                .orElseGet(() -> new BaseResponse<>("Doctor not found!", 404, null, 0));
     }
 
     public BaseResponse<DoctorResponse> login(DoctorLoginRequest doctorLoginRequest){
@@ -74,9 +74,9 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
         DoctorEntity doctorEntity = doctorConverter.toDoctorEntity(baseResponse.getData());
 
         if (passwordEncoder.matches(doctorLoginRequest.getPassword(), doctorEntity.getPassword())){
-            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity));
+            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity), 0);
         }
-        return new BaseResponse<>("Something went wrong!", 400, null);
+        return new BaseResponse<>("Something went wrong!", 400, null, 0);
     }
 
     private BaseResponse<DoctorResponse> updateField(UUID id, Consumer<DoctorEntity> updateField) {
@@ -91,7 +91,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         DoctorEntity updatedDoctor = doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor), 0);
     }
 
     public BaseResponse<DoctorResponse> nameAndLastnameUpdate(DoctorNameAndLastnameUpdateRequest updateRequest) {
@@ -107,7 +107,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         DoctorEntity updatedDoctor = doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor));    }
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor), 0);    }
 
     public BaseResponse<DoctorResponse> specialityUpdate(DoctorSpecialityUpdateRequest request) {
         return updateField(request.getId(), doctorEntity -> doctorEntity.setSpeciality(request.getSpeciality()));
@@ -130,12 +130,12 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         DoctorEntity updatedDoctor = doctorRepository.save(doctorEntity);
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(updatedDoctor), 0);
     }
 
     public BaseResponse<List<DoctorResponse>> getAll(){
         List<DoctorEntity> doctors = doctorRepository.findAll();
 
-        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctors));
+        return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctors), 0);
     }
 }
