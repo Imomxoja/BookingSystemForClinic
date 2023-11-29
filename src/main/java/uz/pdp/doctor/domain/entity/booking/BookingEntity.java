@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "bookings")
 @Builder
 public class BookingEntity extends BaseEntity {
 
@@ -31,4 +31,6 @@ public class BookingEntity extends BaseEntity {
 
    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
    private LocalDateTime endingTime;
+
+   private boolean isActive = true;
 }
