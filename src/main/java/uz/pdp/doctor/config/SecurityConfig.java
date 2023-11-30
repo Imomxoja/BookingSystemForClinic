@@ -23,7 +23,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     private final String[] WHITE_LIST = {
-            "/auth/login",
+            "/auth/login", "/user/save"
     };
 
     @SneakyThrows

@@ -174,15 +174,20 @@
 
 <body>
 
-<!--<div>-->
-<!--  <div id="snackbar">-->
-<!--    <h5 th:text="${message}"></h5>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div th:if="${baseResponse != null}">
-  <h5 th:text="${baseResponse.getMessage()}"></h5>
+<div>
+  <div id="snackbar">
+    <div th:if="${baseResponse != null}">
+      <h5 th:text="${baseResponse.getMessage()}"></h5>
+    </div>
+    <div th:if="${message != null}">
+      <h5 th:text="${message}"></h5>
+    </div>
+  </div>
 </div>
+
+
+
+
 
 <script>
   var x = document.getElementById("snackbar");
@@ -197,8 +202,8 @@
   <div class="login form">
     <header>Login</header>
     <form action="/auth/login" method="post">
-      <input type="text" placeholder="Enter your email">
-      <input type="password" placeholder="Enter your password">
+      <input type="text" placeholder="Enter your email" name="email">
+      <input type="password" placeholder="Enter your password" name="password">
       <input type="submit" class="button" value="Login">
     </form>
     <div class="signup">
