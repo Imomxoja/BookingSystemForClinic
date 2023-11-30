@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Queue System (UI)</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            max-width: 400px;
+            min-height: 400px;
+            margin: 60px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-section img {
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .history-buttons {
+            height: 40px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 20px 0 20px;
+        }
+
+        .search-section {
+            display: flex;
+            flex-direction: row;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 0 30px 0 30px;
+        }
+        .input{
+            padding-left: 10px;
+            width: 85%;
+            height: 30px;
+        }
+
+        .reserve-button-div{
+            padding: 0 30px 0 30px;
+            text-align: right;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .reserve-button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reserve-button:hover{
+            background-color: #62ab65;
+        }
+
+        .button {
+            font-size: 14px;
+            padding: 6px 40px 6px 40px;
+            background-color: #e7e7e7;
+            color: black;
+            border-radius: 3px;
+            border: 2px solid #e7e7e7;
+        }
+
+        .button:hover {background-color: white;}
+
+        .history-button{
+            margin-left: 0;
+        }
+        .active-button{
+            margin-right: 0;
+        }
+
+        .edit-href{
+            padding-left: 5px;
+            color: black;
+        }
+        .edit-href:hover{
+            color: #939393;
+        }
+        .material-icons{
+            font-size: 18px;
+        }
+        .search-btn{
+            float: left;
+            width: 15%;
+            padding: 3px;
+            background: #464646;
+            color: white;
+            font-size: 14px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+        .search-btn:hover{
+            background-color: #727272;
+        }
+        .btn-info{
+            padding: 4px 20px 4px 20px;
+            font-size: 14px;
+        }
+
+        .user-modal{
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content{
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 30%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .modal-header{
+            padding: 20px 40px;
+        }
+
+        .close {
+            color: black;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .send-request-btn{
+            background-color: #4caf50;
+            color: white;
+            padding: 4px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Clinic Queue System</h1>
+</header>
+
+<main>
+
+    <a href="#" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-log-out"></span> Log out
+    </a>
+
+    <div class="profile-section">
+        <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="Profile Photo" width="80">
+        <div>
+            <h2>Name Lastname <a class="edit-href" onclick="openModal('modal1')" href="#"><i class="material-icons">&#xE254;</i></a></h2>
+
+            <form>
+                <div id="modal1" class="user-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onclick="closeModal('modal1')" style="margin: 0 auto" class="close">&times;</span>
+                            <h4 style="font-size: 20px">Edit name and lastname</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input style="width: 80%" type="text" name="name" required placeholder="New name"> <br>
+                            <input style="margin-top: 10px; width: 80%" type="text" name="lastname" required placeholder="New lastname">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="send-request-btn" type="button">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+            <p>Email <a class="edit-href" onclick="openModal('modal2')" href="#"><i class="material-icons">&#xE254;</i></a></p>
+            <form>
+                <div id="modal2" class="user-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onclick="closeModal('modal2')" style="margin: 0 auto" class="close">&times;</span>
+                            <h4 style="font-size: 20px">Edit email</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input style="width: 80%" type="text" name="email" required placeholder="New email">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="send-request-btn" type="button">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="history-buttons">
+        <button class="button history-button">History</button>
+        <button class="button active-button">Active Queues</button>
+    </div>
+
+    <div class="search-section">
+        <input class="input" type="text" id="doctorSearch" name="doctorSearch" placeholder="Search doctor by name">
+        <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+    </div>
+
+    <div class="reserve-button-div">
+        <button class="reserve-button">Reserve a Queue</button>
+    </div>
+</main>
+
+<script>
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        var overlay = document.getElementById('overlay');
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        var overlay = document.getElementById('overlay');
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+</script>
+</body>
+</html>

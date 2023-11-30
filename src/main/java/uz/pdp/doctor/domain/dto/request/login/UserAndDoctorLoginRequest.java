@@ -1,4 +1,4 @@
-package uz.pdp.doctor.domain.dto.request.user;
+package uz.pdp.doctor.domain.dto.request.login;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserLoginRequest {
+public class UserAndDoctorLoginRequest {
 
     @Pattern(regexp = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Email doesn't much")
     private String email;
@@ -16,4 +16,5 @@ public class UserLoginRequest {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
             message = "Password must consist of at least 8 numbers and letters and must not contain symbols")
     private String password;
+
 }

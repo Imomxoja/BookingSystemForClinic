@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import uz.pdp.doctor.domain.dto.request.user.UserLoginRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserNameAndLastnameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
-import uz.pdp.doctor.domain.dto.response.doctor.DoctorResponse;
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
 import uz.pdp.doctor.service.user.UserService;
 
@@ -27,9 +25,9 @@ public class UserController {
 
     @PostMapping("/save")
     public ModelAndView create(
-            @Valid @ModelAttribute ("user") UserRequest userRequest,
+            @Valid @ModelAttribute UserRequest userRequest,
             BindingResult bindingResult){
-        ModelAndView modelAndView = new ModelAndView("loginRegisterPage");
+        ModelAndView modelAndView = new ModelAndView("loginRegister");
 
         if (bindingResult.hasErrors()){
             modelAndView.addObject("message", extractAllErrors(bindingResult));
@@ -57,22 +55,6 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView("viewName");
         modelAndView.addObject(baseResponse);
-
-        return modelAndView;
-    }
-
-    @GetMapping("/login")
-    public ModelAndView login(
-            @Valid @ModelAttribute UserLoginRequest userLoginRequest,
-            BindingResult bindingResult){
-        ModelAndView modelAndView = new ModelAndView("loginRegisterPage");
-
-        if (bindingResult.hasErrors()){
-            modelAndView.addObject("message", extractAllErrors(bindingResult));
-        }else {
-            BaseResponse<UserResponse> baseResponse = userService.login(userLoginRequest);
-            modelAndView.addObject("baseResponse", baseResponse);
-        }
 
         return modelAndView;
     }

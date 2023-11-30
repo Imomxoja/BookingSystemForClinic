@@ -57,22 +57,6 @@ public class DoctorController {
         return modelAndView;
     }
 
-    @GetMapping("/login")
-    public ModelAndView login(
-            @Valid @ModelAttribute DoctorLoginRequest doctorLoginRequest,
-            BindingResult bindingResult){
-        ModelAndView modelAndView = new ModelAndView("loginRegisterPage");
-
-        if (bindingResult.hasErrors()){
-            modelAndView.addObject("message", extractAllErrors(bindingResult));
-        }else {
-            BaseResponse<DoctorResponse> doctorLoginResponse = doctorService.login(doctorLoginRequest);
-            modelAndView.addObject("baseResponse", doctorLoginResponse);
-        }
-
-        return modelAndView;
-    }
-
     @PostMapping("/name-lastname-update")
     public ModelAndView nameAndLastnameUpdate(
             @Valid @ModelAttribute DoctorNameAndLastnameUpdateRequest doctorNameAndLastnameUpdateRequest,
