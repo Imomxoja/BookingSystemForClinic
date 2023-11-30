@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.controller.converter.UserConverter;
-import uz.pdp.doctor.domain.dto.request.user.UserLoginRequest;
+import uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserNameAndLastnameUpdateRequest;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
@@ -31,6 +31,13 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
     public BaseResponse<UserResponse> create(UserRequest userRequest) {
         UserEntity userEntity = userConverter.toUserEntity(userRequest);
         userEntity.setRole(UserRole.USER);
+
+        BaseResponse<UserResponse> byEmail = findByEmail(userRequest.getEmail());
+        if (byEmail.getData() != null){
+            return new BaseResponse<>(
+                    "email bor",
+                    200, null, 0);
+        }
 
         userRepository.save(userEntity);
 
@@ -72,7 +79,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
                 .orElseGet(() -> new BaseResponse<>("User not found!", 404, null, 0));
     }
 
-    public BaseResponse<UserResponse> login(UserLoginRequest userLoginRequest){
+    public BaseResponse<UserResponse> login(UserAndDoctorLoginRequest userLoginRequest){
         BaseResponse<UserResponse> baseResponse = findByEmail(userLoginRequest.getEmail());
 
         if (baseResponse.getData() == null){

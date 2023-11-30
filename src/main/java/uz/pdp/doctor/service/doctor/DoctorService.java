@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.controller.converter.DoctorConverter;
 import uz.pdp.doctor.domain.dto.request.doctor.*;
+import uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
 import uz.pdp.doctor.domain.dto.response.doctor.DoctorResponse;
 import uz.pdp.doctor.domain.entity.doctor.DoctorEntity;
@@ -64,7 +65,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
                 .orElseGet(() -> new BaseResponse<>("Doctor not found!", 404, null, 0));
     }
 
-    public BaseResponse<DoctorResponse> login(DoctorLoginRequest doctorLoginRequest){
+    public BaseResponse<DoctorResponse> login(UserAndDoctorLoginRequest doctorLoginRequest){
         BaseResponse<DoctorResponse> baseResponse = findByEmail(doctorLoginRequest.getEmail());
 
         if (baseResponse.getData() == null){

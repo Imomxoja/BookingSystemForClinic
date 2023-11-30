@@ -23,7 +23,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     private final String[] WHITE_LIST = {
-            "/"
+            "/auth/login",
     };
 
     @SneakyThrows
@@ -38,11 +38,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .successForwardUrl("")
-                .and()
-                .logout()
-                .logoutUrl("")
-                .permitAll()
+                .loginPage("/auth/login")
                 .and()
                 .build();
     }
