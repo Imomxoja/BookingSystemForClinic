@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Queue System (DI)</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            max-width: 400px;
+            min-height: 400px;
+            margin: 60px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-section img {
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .history-buttons {
+            height: 40px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 20px 0 20px;
+        }
+
+        .button {
+            font-size: 14px;
+            padding: 6px 40px 6px 40px;
+            background-color: #e7e7e7;
+            color: black;
+            border-radius: 3px;
+            border: 2px solid #e7e7e7;
+        }
+
+        .button:hover {background-color: white;}
+
+        .history-button{
+            margin-left: 0;
+        }
+        .active-button{
+            margin-right: 0;
+        }
+
+        .edit-href{
+            padding-left: 5px;
+            color: black;
+        }
+        .edit-href:hover{
+            color: #939393;
+        }
+        .material-icons{
+            font-size: 18px;
+        }
+        .btn-info{
+            padding: 4px 20px 4px 20px;
+            font-size: 14px;
+        }
+        .description-p{
+            padding: 0 10px 0 10px;
+        }
+        .modal{
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content{
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 30%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .modal-header{
+            padding: 20px 40px;
+        }
+
+        .close {
+            color: black;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .close1 {
+            color: black;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .working-time-btn{
+            background-color: #4caf50;
+            color: white;
+            padding: 4px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Clinic Queue System</h1>
+</header>
+
+<main>
+
+    <a href="#" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-log-out"></span> Log out
+    </a>
+
+    <div class="profile-section">
+        <img src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="Profile Photo" width="80">
+        <div>
+            <h2>Name Lastname <a class="edit-href" onclick="openModal('modal1')" href="#"><i class="material-icons">&#xE254;</i></a></h2>
+            <form>
+                <div id="modal1" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onclick="closeModal('modal1')" style="margin: 0 auto" class="close1">&times;</span>
+                            <h4 style="font-size: 20px">Edit name and lastname</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input style="width: 80%" type="text" name="name" required placeholder="New name"> <br>
+                            <input style="margin-top: 10px; width: 80%" type="text" name="lastname" required placeholder="New lastname">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="working-time-btn" type="button">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <p>Email <a class="edit-href" onclick="openModal('modal2')" href="#"><i class="material-icons">&#xE254;</i></a></p>
+            <form>
+                <div id="modal2" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onclick="closeModal('modal2')" style="margin: 0 auto" class="close1">&times;</span>
+                            <h4 style="font-size: 20px">Edit email</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input style="width: 80%" type="text" name="email" required placeholder="New email">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="working-time-btn" type="button">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <p>Speciality: example <a class="edit-href" onclick="openModal('modal3')" href="#"><i class="material-icons">&#xE254;</i></a></p>
+
+            <form>
+                <div id="modal3" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onclick="closeModal('modal3')" style="margin: 0 auto" class="close1">&times;</span>
+                            <h4 style="font-size: 20px">Edit speciality</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- specailitylarni chiqrish kerag -->
+<!--                            <input style="width: 80%" type="reset" name="description" required placeholder="New description">-->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="working-time-btn" type="button">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <p class="description-p">Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem ipsa officia optioipsum dolor sit amet, consectetur adipisicing elit. <a class="edit-href" onclick="openModal('modal4')" href="#"><i class="material-icons">&#xE254;</i></a></p>
+    <form>
+        <div id="modal4" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span onclick="closeModal('modal4')" style="margin: 0 auto" class="close1">&times;</span>
+                    <h4 style="font-size: 20px">Edit description</h4>
+                </div>
+                <div class="modal-body" style="height: 150px">
+                    <textarea style="width: 80%; height: 120px" name="description" required placeholder="New description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="working-time-btn" type="button">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <p class="description-p"><b>Working time:</b> 08:30-18:00 <a class="edit-href" id="editWorkingTime" href="#"><i class="material-icons">&#xE254;</i></a></p>
+    <form>
+        <div id="editWorkingTimeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="margin: 0 auto" class="close">&times;</span>
+                    <h4 style="font-size: 20px">Edit working time</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="start-time"><h5>Beginning work time:</h5></label>
+                    <input type="time" id="start-time" name="start-time" required>
+                    <br>
+                    <label for="end-time"><h5>Ending work time:</h5></label>
+                    <input type="time" id="end-time" name="end-time" required>
+                </div>
+                <div class="modal-footer">
+                    <button class="working-time-btn" type="button" onclick="validateTime()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="history-buttons">
+        <button class="button history-button">History</button>
+        <button class="button active-button">Today's patients</button>
+    </div>
+</main>
+
+<script>
+    function validateTime() {
+        var startTime = document.getElementById('start-time').value;
+        var endTime = document.getElementById('end-time').value;
+
+        if (startTime < endTime) {
+            alert('Время работы подтверждено: ' + startTime + '-' + endTime);
+        } else {
+            alert('Выберите корректный временной диапазон.');
+        }
+    }
+</script>
+
+<script>
+    var modal = document.getElementById("editWorkingTimeModal");
+
+    var btn = document.getElementById("editWorkingTime");
+
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        var overlay = document.getElementById('overlay');
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        var overlay = document.getElementById('overlay');
+        modal.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+</script>
+</body>
+</html>
