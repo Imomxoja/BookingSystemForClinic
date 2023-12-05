@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -21,8 +23,10 @@ public abstract class BaseEntity {
      protected UUID id;
 
      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+     @CreationTimestamp
      protected LocalDateTime createdDate;
 
      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+     @UpdateTimestamp
      protected LocalDateTime updatedDate;
 }

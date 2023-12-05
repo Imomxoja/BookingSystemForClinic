@@ -201,7 +201,9 @@
   <input type="checkbox" id="check">
   <div class="login form">
     <header>Login</header>
-    <form action="/auth/login" method="post">
+
+    <!--/*@thymesVar id="loginRequest" type="uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest"*/-->
+    <form action="/auth/login" method="post" th:object="${loginRequest}">
       <input type="text" placeholder="Enter your email" name="email">
       <input type="password" placeholder="Enter your password" name="password">
       <input type="submit" class="button" value="Login">
@@ -217,7 +219,7 @@
     <form action="/user/save" method="post">
       <input type="text" placeholder="Enter your name" name="name">
       <input type="text" placeholder="Enter your lastname" name="lastName">
-      <input type="text" placeholder="Enter your email" name="email">
+      <input type="email" placeholder="Enter your email" name="email">
       <input type="password" placeholder="Create a password" name="password">
       <input type="submit" class="button" value="Signup">
     </form>

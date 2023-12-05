@@ -1,12 +1,10 @@
 package uz.pdp.doctor.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
@@ -23,13 +21,13 @@ public class AuthController {
     private final DoctorService doctorService;
 
     @GetMapping("/login")
-    public ModelAndView login(ModelAndView view) {
-        view.setViewName("loginRegister");
-        return view;
+    public ModelAndView login() {
+        System.out.println("hello");
+        return new ModelAndView("loginRegister");
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@RequestBody UserAndDoctorLoginRequest loginRequest,
+    public ModelAndView login(@ModelAttribute("loginRequest") UserAndDoctorLoginRequest loginRequest,
                               BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("loginRegister");
 

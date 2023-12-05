@@ -3,7 +3,7 @@ package uz.pdp.doctor.controller.converter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.pdp.doctor.domain.dto.request.user.UserRequest;
 import uz.pdp.doctor.domain.dto.response.user.UserResponse;
@@ -17,11 +17,11 @@ import java.util.List;
 public class UserConverter {
 
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
 
     public UserEntity toUserEntity(UserRequest userRequest){
         UserEntity user = modelMapper.map(userRequest, UserEntity.class);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }
 
