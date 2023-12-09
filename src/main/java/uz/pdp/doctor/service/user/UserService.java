@@ -2,6 +2,7 @@ package uz.pdp.doctor.service.user;
 
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.controller.converter.UserConverter;
 import uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest;
@@ -25,7 +26,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
 
     private final UserRepository userRepository;
     private final UserConverter userConverter;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public BaseResponse<UserResponse> create(UserRequest userRequest) {
@@ -71,7 +72,7 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
     }
 
     public BaseResponse<UserResponse> findByEmail(String email){
-        Optional<UserEntity> optional = userRepository.findUserEntityByEmail(email);
+        Optional<UserEntity> optional = userRepository.findUserByEmail(email);
 
         return optional.map(userEntity -> new BaseResponse<>(
                 "Success!",
@@ -80,19 +81,15 @@ public class UserService implements BaseService<UserRequest, BaseResponse<UserRe
     }
 
     public BaseResponse<UserResponse> login(UserAndDoctorLoginRequest userLoginRequest){
-        BaseResponse<UserResponse> baseResponse = findByEmail(userLoginRequest.getEmail());
+        System.out.println(userLoginRequest.getEmail());
+        Optional<UserEntity> userEntityByEmail = userRepository.findUserByEmail(userLoginRequest.getEmail());
 
-        if (baseResponse.getData() == null){
-            return baseResponse;
+        if (userEntityByEmail.isPresent()){
+            if (passwordEncoder.matches(userLoginRequest.getPassword(), userEntityByEmail.get().getPassword())){
+                return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(userEntityByEmail.get()), 0);
+            }
         }
 
-        UserEntity userEntity = userConverter.toUserEntity(baseResponse.getData());
-        if (userEntity.getPassword().equals(userLoginRequest.getPassword())){
-            return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(userEntity), 0);
-        }
-//        if (passwordEncoder.matches(userLoginRequest.getPassword(), userEntity.getPassword())){
-//            return new BaseResponse<>("Success!", 200, userConverter.toUserResponse(userEntity), 0);
-//        }
         return new BaseResponse<>("Something went wrong!", 400, null, 0);
     }
 

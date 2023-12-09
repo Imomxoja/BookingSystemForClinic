@@ -1,6 +1,5 @@
 package uz.pdp.doctor.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,38 +20,39 @@ public class AuthController {
     private final DoctorService doctorService;
 
     @GetMapping("/login")
-    public ModelAndView login() {
-        System.out.println("hello");
-        return new ModelAndView("loginRegister");
+    public ModelAndView login(ModelAndView view) {
+        view.setViewName("loginRegister");
+        return view;
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute("loginRequest") UserAndDoctorLoginRequest loginRequest,
-                              BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("loginRegister");
+    public ModelAndView login(@RequestBody UserAndDoctorLoginRequest loginRequest,
+                              BindingResult bindingResult, ModelAndView modelAndView) {
+        modelAndView.setViewName("loginRegister");
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             modelAndView.addObject("message", extractAllErrors(bindingResult));
-        }else {
+        } else {
+            System.out.println(loginRequest.getEmail());
+            System.out.println(loginRequest.getPassword());
             BaseResponse<UserResponse> baseResponse = userService.login(loginRequest);
 
-            if (baseResponse.getData() == null){
+            if (baseResponse.getData() == null) {
                 BaseResponse<DoctorResponse> login = doctorService.login(loginRequest);
                 modelAndView.addObject("baseResponse", login);
-                if (login.getData() != null){
+                if (login.getData() != null) {
                     modelAndView.setViewName("doctorInterface");
                 }
-
-            }else {
+            } else {
                 modelAndView.addObject("baseResponse", baseResponse);
                 modelAndView.setViewName("userInterface");
             }
         }
-
         return modelAndView;
     }
 
-    private static String extractAllErrors(BindingResult bindingResult){
+
+    private static String extractAllErrors(BindingResult bindingResult) {
         StringBuilder result = new StringBuilder();
         bindingResult.getAllErrors()
                 .forEach(error -> result.append(error.getDefaultMessage()).append("\n"));

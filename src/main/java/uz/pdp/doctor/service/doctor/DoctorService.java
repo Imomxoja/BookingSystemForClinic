@@ -1,7 +1,7 @@
 package uz.pdp.doctor.service.doctor;
 
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.controller.converter.DoctorConverter;
 import uz.pdp.doctor.domain.dto.request.doctor.*;
@@ -23,7 +23,7 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
     private final DoctorRepository doctorRepository;
     private final DoctorConverter doctorConverter;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public BaseResponse<DoctorResponse> create(DoctorRequest doctorRequest) {
@@ -74,9 +74,9 @@ public class DoctorService implements BaseService<DoctorRequest, BaseResponse<Do
 
         DoctorEntity doctorEntity = doctorConverter.toDoctorEntity(baseResponse.getData());
 
-//        if (passwordEncoder.matches(doctorLoginRequest.getPassword(), doctorEntity.getPassword())){
-//            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity), 0);
-//        }
+        if (passwordEncoder.matches(doctorLoginRequest.getPassword(), doctorEntity.getPassword())){
+            return new BaseResponse<>("Success!", 200, doctorConverter.toDoctorResponse(doctorEntity), 0);
+        }
         return new BaseResponse<>("Something went wrong!", 400, null, 0);
     }
 
