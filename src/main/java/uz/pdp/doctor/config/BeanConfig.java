@@ -21,8 +21,7 @@ public class BeanConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper
-                .getConfiguration()
+        modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
                 .setPropertyCondition(Conditions.isNotNull());
         return modelMapper;
@@ -33,11 +32,10 @@ public class BeanConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return email -> userRepository
-                .findUserEntityByEmail(email)
-                .orElseThrow(() -> new UserEmailNotFoundException("Email is not found"));
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return email -> userRepository.findUserByEmail(email)
+//                .orElseThrow(() -> new UserEmailNotFoundException("Email is not found"));
+//    }
 
 }

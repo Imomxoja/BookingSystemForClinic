@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.pdp.doctor.domain.dto.request.history.HistoryRequest;
 import uz.pdp.doctor.domain.dto.response.BaseResponse;
-import uz.pdp.doctor.domain.dto.response.booking.BookingResponse;
 import uz.pdp.doctor.domain.dto.response.history.HistoryResponse;
 import uz.pdp.doctor.domain.entity.history.HistoryEntity;
 import uz.pdp.doctor.repository.history.HistoryRepository;

@@ -1,7 +1,7 @@
 package uz.pdp.doctor.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +20,7 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyRole('USER')")
+//    @PreAuthorize("hasAnyRole('USER')")
     public ModelAndView createBooking(@ModelAttribute BookingRequest bookingRequest) {
         ModelAndView view = new ModelAndView();
 
@@ -34,7 +34,7 @@ public class BookingController {
         return view;
     }
 
-    @PreAuthorize("hasAnyRole('USER')")
+//    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/delete/{id}")
     public ModelAndView deleteBooking(@PathVariable("id") UUID bookingId) {
         ModelAndView view = new ModelAndView();

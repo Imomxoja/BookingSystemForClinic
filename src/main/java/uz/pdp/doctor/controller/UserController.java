@@ -23,6 +23,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/user-interface")
+    public ModelAndView userInterface(){
+        return new ModelAndView("userInterface");
+    }
+
     @PostMapping("/save")
     public ModelAndView create(
             @Valid @ModelAttribute UserRequest userRequest,
