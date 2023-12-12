@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/auth/login")
+                .loginPage("/auth/login-page")
                 .successForwardUrl("/user").permitAll()
                 .and()
                 .build();

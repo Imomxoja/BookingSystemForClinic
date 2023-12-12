@@ -19,22 +19,19 @@ public class AuthController {
     private final UserService userService;
     private final DoctorService doctorService;
 
-    @GetMapping("/login")
-    public ModelAndView login(ModelAndView view) {
-        view.setViewName("loginRegister");
-        return view;
+    @GetMapping("/login-page")
+    public ModelAndView login() {
+        return new ModelAndView("loginRegister");
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@RequestBody UserAndDoctorLoginRequest loginRequest,
+    public ModelAndView login(@ModelAttribute UserAndDoctorLoginRequest loginRequest,
                               BindingResult bindingResult, ModelAndView modelAndView) {
         modelAndView.setViewName("loginRegister");
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("message", extractAllErrors(bindingResult));
         } else {
-            System.out.println(loginRequest.getEmail());
-            System.out.println(loginRequest.getPassword());
             BaseResponse<UserResponse> baseResponse = userService.login(loginRequest);
 
             if (baseResponse.getData() == null) {

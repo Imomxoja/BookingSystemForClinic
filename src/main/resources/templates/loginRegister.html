@@ -202,10 +202,10 @@
   <div class="login form">
     <header>Login</header>
 
-    <!--/*@thymesVar id="loginRequest" type="uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest"*/-->
-    <form th:action="@{/auth/login}" method="post" th:object="${loginRequest}">
-      <input type="text" placeholder="Enter your email" name="email">
-      <input type="password" placeholder="Enter your password" name="password">
+    <!--/*@thymesVar id="loginDto" type="uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest"*/-->
+    <form th:action="@{/auth/login}" method="post" th:object="${loginDto}">
+      <input type="text" name="email" placeholder="Enter your email" required>
+      <input type="password" name="password" placeholder="Enter your password" required>
       <input type="submit" class="button" value="login">
     </form>
     <div class="signup">
@@ -214,19 +214,22 @@
         </span>
     </div>
   </div>
+
   <div class="registration form">
     <header>Signup</header>
-    <!--/*@thymesVar id="singUpRequest" type="uz.pdp.doctor.domain.dto.request.login.UserAndDoctorLoginRequest"*/-->
+    <!--/*@thymesVar id="singUpRequest" type="uz.pdp.doctor.domain.dto.request.user.UserRequest"*/-->
     <form th:action="@{/user/save}" method="post" th:object="${singUpRequest}">
       <input type="text" placeholder="Enter your name" name="name">
       <input type="text" placeholder="Enter your lastname" name="lastName">
       <input type="email" placeholder="Enter your email" name="email">
       <input type="password" placeholder="Create a password" name="password">
-    <div class="signup">
+      <input type="submit" class="button" value="register">
+    </form>
+      <div class="signup">
         <span class="signup">Already have an account?
          <label for="check">Login</label>
         </span>
-    </div>
+      </div>
   </div>
 </div>
 </body>
